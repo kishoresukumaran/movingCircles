@@ -3,31 +3,27 @@
 let x = document.getElementById('circleBig');
 let y = document.getElementById('circleSmall');
 //making the circle draggable
-moveCircle(document.getElementById(x));
-moveCircle(document.getElementById(y));
+moveCircle(x);
+moveCircle(y);
 
 function moveCircle(circleElement) {
   let pos1 = 0,
     pos2 = 0,
     pos3 = 0,
     pos4 = 0;
-  x.onmousedown = circleDragDown;
-  y.onmousedown = circleDragDown;
+  x.onmousedown = CircleDragDown;
+  y.onmousedown = CircleDragDown;
 
-  function circleDragDown(e) {
-    e = e || window.event;
-    e.preventDefault();
+  function CircleDragDown(e) {
     //getting the mouse pointer position at startup
     pos3 = e.clientX;
     pos4 = e.clientY;
-    document.onmouseup = closeCircleDrag;
+    document.onmouseup = CircleCloseDrag;
     //circleDrag function to be called when moving the mouse
     document.onmousemove = circleDrag;
   }
 
   function circleDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
     //Calculating new curor position
     pos1 = pos3 - e.clientX;
     pos2 = pos4 - e.clientY;
@@ -38,7 +34,7 @@ function moveCircle(circleElement) {
     x.style.left = x.offsetLeft - pos1 + 'px';
   }
 
-  function closeCircleDrag() {
+  function CircleCloseDrag() {
     document.onmouseup = null;
     document.onmousemove = null;
   }

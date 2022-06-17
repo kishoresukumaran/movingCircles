@@ -7,7 +7,7 @@
 }
 
 .circleSmall {
-  position: relative;
+  position: absolute;
   height: 8rem;
   width: 8rem;
   background-color: blue;
