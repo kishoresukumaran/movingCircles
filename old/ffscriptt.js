@@ -1,4 +1,13 @@
 'use strict';
+
+var rect;
+var viewport = {
+  bottom: 0,
+  left: 0,
+  right: 0,
+  top: 0,
+};
+
 let bigCircle = {
   domObject: document.getElementById('circleBig'),
   moveCircle() {
@@ -10,6 +19,9 @@ let bigCircle = {
     function circleStartPosition(e) {
       pos3 = e.clientX;
       pos4 = e.clientY;
+      rect = bigCircle.domObject.getBoundingClientRect();
+      viewport.right = window.innerWidth;
+      viewport.bottom = window.innerHeight;
       document.onmousemove = circleDrag;
       document.onmouseup = circleCloseDrag;
     }
@@ -18,18 +30,20 @@ let bigCircle = {
       pos2 = pos4 - e.clientY;
       pos3 = e.clientX;
       pos4 = e.clientY;
-      bigCircle.domObject.style.top =
-        bigCircle.domObject.offsetTop >= 0
-          ? bigCircle.domObject.offsetTop - pos2 + 'px'
-          : 0;
-      bigCircle.domObject.style.left =
-        bigCircle.domObject.offsetLeft >= 0
-          ? bigCircle.domObject.offsetLeft - pos1 + 'px'
-          : 0;
-
-      console.log(
-        bigCircle.domObject.offsetTop + bigCircle.domObject.offsetHeight
-      );
+      var newTop = bigCircle.domObject.offsetTop - pos2;
+      var newLeft = bigCircle.domObject.offsetLeft - pos1;
+      if (
+        newLeft < viewport.left ||
+        newTop < viewport.top ||
+        newLeft + rect.width > viewport.right ||
+        newTop + rect.height > viewport.bottom
+      ) {
+      } else {
+        bigCircle.domObject.style.top =
+          bigCircle.domObject.offsetTop - pos2 + 'px';
+        bigCircle.domObject.style.left =
+          bigCircle.domObject.offsetLeft - pos1 + 'px';
+      }
     }
     function circleCloseDrag() {
       document.onmouseup = null;
@@ -41,7 +55,6 @@ let bigCircle = {
 let smallCircle = {
   domObject: document.getElementById('circleSmall'),
   moveCircle() {
-    console.log('button clicked');
     let cos1 = 0,
       cos2 = 0,
       cos3 = 0,
@@ -50,6 +63,9 @@ let smallCircle = {
     function circleSmallStartPosition(e) {
       cos3 = e.clientX;
       cos4 = e.clientY;
+      rect = smallCircle.domObject.getBoundingClientRect();
+      viewport.right = window.innerWidth;
+      viewport.bottom = window.innerHeight;
       document.onmousemove = circleSmallDrag;
       document.onmouseup = circleSmallCloseDrag;
     }
@@ -58,18 +74,20 @@ let smallCircle = {
       cos2 = cos4 - e.clientY;
       cos3 = e.clientX;
       cos4 = e.clientY;
-      smallCircle.domObject.style.top =
-        smallCircle.domObject.offsetTop >= 0
-          ? smallCircle.domObject.offsetTop - cos2 + 'px'
-          : 0;
-      smallCircle.domObject.style.left =
-        smallCircle.domObject.offsetLeft >= 0
-          ? smallCircle.domObject.offsetLeft - cos1 + 'px'
-          : 0;
-
-      console.log(
-        smallCircle.domObject.offsetTop + smallCircle.domObject.offsetHeight
-      );
+      var newTop = bigCircle.domObject.offsetTop - cos2;
+      var newLeft = bigCircle.domObject.offsetLeft - cos1;
+      if (
+        newLeft < viewport.left ||
+        newTop < viewport.top ||
+        newLeft + rect.width > viewport.right ||
+        newTop + rect.height > viewport.bottom
+      ) {
+      } else {
+        smallCircle.domObject.style.top =
+          smallCircle.domObject.offsetTop - cos2 + 'px';
+        smallCircle.domObject.style.left =
+          smallCircle.domObject.offsetLeft - cos1 + 'px';
+      }
     }
     function circleSmallCloseDrag() {
       document.onmouseup = null;
@@ -77,6 +95,5 @@ let smallCircle = {
     }
   },
 };
-
 bigCircle.domObject.addEventListener('click', bigCircle.moveCircle);
 smallCircle.domObject.addEventListener('click', smallCircle.moveCircle);

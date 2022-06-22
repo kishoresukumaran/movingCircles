@@ -1,40 +1,54 @@
 'use strict';
 
-let x = document.getElementById('circleBig');
-let y = document.getElementById('circleSmall');
-//making the circle draggable
-moveCircle(x);
-moveCircle(y);
+var shape;
+var viewport = {
+  bottom: 0,
+  left: 0,
+  right: 0,
+  top: 0,
+};
 
-function moveCircle(circleElement) {
-  let pos1 = 0,
+let bigCircle = document.getElementById('circleBig');
+let smallCircle = document.getElementById('circleSmall');
+
+moveShape(bigCircle);
+moveShape(smallCircle);
+
+function moveShape(elmnt) {
+  var pos1 = 0,
     pos2 = 0,
     pos3 = 0,
     pos4 = 0;
-  x.onmousedown = CircleDragDown;
-  y.onmousedown = CircleDragDown;
-
-  function CircleDragDown(e) {
-    //getting the mouse pointer position at startup
+  elmnt.onmousedown = moveMouse;
+  function moveMouse(e) {
     pos3 = e.clientX;
     pos4 = e.clientY;
-    document.onmouseup = CircleCloseDrag;
-    //circleDrag function to be called when moving the mouse
-    document.onmousemove = circleDrag;
+    shape = elmnt.getBoundingClientRect();
+    console.log(shape);
+    viewport.bottom = window.innerHeight;
+    viewport.right = window.innerWidth;
+    document.onmouseup = closeMouseMove;
+    document.onmousemove = mouseDrag;
   }
-
-  function circleDrag(e) {
-    //Calculating new curor position
+  function mouseDrag(e) {
     pos1 = pos3 - e.clientX;
     pos2 = pos4 - e.clientY;
     pos3 = e.clientX;
     pos4 = e.clientY;
-    //Set the Circle's new position
-    x.style.top = x.offsetTop - pos2 + 'px';
-    x.style.left = x.offsetLeft - pos1 + 'px';
+    var newLeft = elmnt.offsetLeft - pos1;
+    var newTop = elmnt.offsetTop - pos2;
+    if (
+      newLeft < viewport.left ||
+      newTop < viewport.top ||
+      newLeft + shape.width > viewport.right ||
+      newTop + shape.height > viewport.bottom
+    ) {
+    } else {
+      elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
+      elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
+    }
   }
-
-  function CircleCloseDrag() {
+  function closeMouseMove() {
     document.onmouseup = null;
     document.onmousemove = null;
   }
