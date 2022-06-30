@@ -1,0 +1,15 @@
+.circleBig {
+  position: absolute;
+  height: 240px;
+  width: 240px;
+  background-color: black;
+  border-radius: 50%;
+}
+
+.circleSmall {
+  position: absolute;
+  height: 128px;
+  width: 128px;
+  background-color: blue;
+  border-radius: 50%;
+}

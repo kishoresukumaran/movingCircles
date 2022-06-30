@@ -1,6 +1,7 @@
 'use strict';
 
 var shape;
+
 var viewport = {
   bottom: 0,
   left: 0,
@@ -24,7 +25,6 @@ function moveShape(elmnt) {
     pos3 = e.clientX;
     pos4 = e.clientY;
     shape = elmnt.getBoundingClientRect();
-    console.log(shape);
     viewport.bottom = window.innerHeight;
     viewport.right = window.innerWidth;
     document.onmouseup = closeMouseMove;
